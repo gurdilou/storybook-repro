@@ -1,0 +1,67 @@
+import {ArgsTable, Canvas, Stories, Story} from "@storybook/addon-docs"; import {Primary} from "./Button.stories";
+
+# Button
+
+This is an MDX file, defined as documentation page in `Button.stories.tsx`.
+```js
+import CustomDoc from "./Button.doc.mdx";
+export default {
+  title: 'Example/Button',
+  component: Button,
+  parameters: {
+    docs: {page: CustomDoc}
+  }
+};
+```
+
+Component configuration header overrides description of `backgroundColor` property.
+
+It should now display "**An overriden description in .stories.tsx file**" in Canvas tab and `<ArgTable/>`.
+
+It works in Canvas but not in`<ArgTable/>`.
+
+
+## Component global arg table
+
+Following `<ArgTable/>` should inherit from component configuration but it does not:
+
+- `<ArgsTable of="^" include={"backgroundColor"}/>` becomes:
+<ArgsTable of="^" include={"backgroundColor"}/>
+
+- Same with `<ArgsTable of="." include={"backgroundColor"}/>`, becomes:
+<ArgsTable of="." include={"backgroundColor"}/>
+
+
+## Per story arg table
+
+### Arg table for an exported story
+
+It does not seem possible to link an arg table to a story, here is the story "example-button--primary" :
+
+<Canvas>
+    <Story id={"example-button--primary"}/>
+</Canvas>
+
+I did not manage to attach an `<ArgsTable/>` :
+- `<ArgsTable story={"example-button--primary"}/>`:
+<ArgsTable story={"example-button--primary"}/>
+
+- `<ArgsTable story={"primary"}/>`:
+<ArgsTable story={"primary"}/>
+
+- `<ArgsTable of={Primary}/>`:
+<ArgsTable of={Primary}/>
+
+### Contextual arg table
+
+It seems to be the only case where it works but it is really limited:
+
+- `<ArgTable story="^"/>` controls the default story:
+<ArgsTable story={"^"} include={["backgroundColor", "size"]}/>
+
+
+- `<ArgTable story="."/>` controls the current selection story :
+<ArgsTable story={"."} include={["backgroundColor", "size"]}/>
+
+
+<Stories title={"Remaining stories"}/>
